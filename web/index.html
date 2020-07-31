@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="d2shop_admin">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/png" href="favicon.png" />
+
+  <title>d2shop_admin</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyANw9jftcIWU5IanXjYlMes3XkzlqcP284",
+      authDomain: "doonstore-c287a.firebaseapp.com",
+      databaseURL: "https://doonstore-c287a.firebaseio.com",
+      projectId: "doonstore-c287a",
+      storageBucket: "doonstore-c287a.appspot.com",
+      messagingSenderId: "1063953716752",
+      appId: "1:1063953716752:web:3a4b8ceb505a0b24c7dc95",
+      measurementId: "G-M7ECP37TLS"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+      });
+    }
+  </script>
+  <script src="main.dart.js" type="application/javascript"></script>
+</body>
+
+</html>
