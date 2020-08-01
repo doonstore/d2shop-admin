@@ -1,8 +1,8 @@
-import 'package:d2shop_admin/src/homepage.dart';
 import 'package:d2shop_admin/src/login_screen.dart';
+import 'package:d2shop_admin/src/main_screen.dart';
 import 'package:d2shop_admin/src/services/firestore_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
@@ -43,7 +43,7 @@ class AuthService {
       stream: _auth.onAuthStateChanged,
       builder: (context, snapshot) {
         if (snapshot.hasData)
-          return HomePage();
+          return MainScreen();
         else
           return LoginPage();
       },
