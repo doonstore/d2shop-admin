@@ -21,13 +21,13 @@ class Category {
         itemList: json['itemList'],
       );
 
-  Map<String, dynamic> toJson(Category category) => {
-        'id': category.id,
-        'name': category.name,
-        'photoUrl': category.photoUrl,
-        'isFeatured': category.isFeatured,
-        'itemCategoryList': category.itemCategoryList,
-        'itemList': category.itemList
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'photoUrl': photoUrl,
+        'isFeatured': isFeatured,
+        'itemCategoryList': itemCategoryList,
+        'itemList': itemList
       };
 }
 

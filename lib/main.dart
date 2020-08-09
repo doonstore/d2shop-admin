@@ -1,4 +1,4 @@
-import 'package:d2shop_admin/src/main_screen.dart';
+import 'package:d2shop_admin/src/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MainScreen(),
+      home: AuthService().handleAuth(),
     );
   }
 }
