@@ -1,52 +1,62 @@
-import 'package:d2shop_admin/src/login_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:d2shop_admin/src/main_screen.dart';
+import 'package:d2shop_admin/src/models/admin_model.dart';
+import 'package:d2shop_admin/src/provider/state.dart';
 import 'package:d2shop_admin/src/services/firestore_services.dart';
+import 'package:d2shop_admin/src/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> signup(String email, String password) async {
+  Future<void> addNewUser(AdminModel adminModel, String pass) async {
     try {
-      final AuthResult result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      if (result != null) {
-        await FirestoreServices().saveData(result.user);
+      final AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+          email: adminModel.emailAddress, password: pass);
+
+      final FirebaseUser firebaseUser = authResult.user;
+
+      if (firebaseUser != null) {
+        firebaseUser.sendEmailVerification();
+        return FirestoreServices().saveAdminData(adminModel);
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: e.toString(),
-        webBgColor: "#000",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-      );
+      Utils.showMessage(e.toString());
     }
   }
 
-  login(String email, String password) async {
+  login(String email, String password, BuildContext context) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      AuthResult authResult = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (authResult.user != null) {
+        DocumentSnapshot doc = await adminRef.document(email).get();
+
+        if (doc.exists) {
+          Provider.of<ApplicationState>(context, listen: false)
+              .setAdmin(AdminModel.fromJson(doc.data));
+
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+        } else {
+          Utils.showMessage(
+              "You are not authorized to login into the admin panel.");
+        }
+      }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: e.toString(),
-        webBgColor: "#000",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-      );
+      Utils.showMessage(e.toString());
     }
   }
 
-  handleAuth() {
-    return StreamBuilder(
-      stream: _auth.onAuthStateChanged,
-      builder: (context, snapshot) {
-        if (snapshot.hasData)
-          return MainScreen();
-        else
-          return LoginPage();
-      },
-    );
+  changePassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      Utils.showMessage('Password Reset mail has been sent to $email');
+    } catch (e) {
+      Utils.showMessage(e.toString());
+    }
   }
 }

@@ -1,10 +1,9 @@
-import 'package:d2shop_admin/src/screens/category_screen.dart';
-import 'package:d2shop_admin/src/screens/home_page.dart';
-import 'package:d2shop_admin/src/screens/item_screen.dart';
-import 'package:d2shop_admin/src/screens/orders_screen.dart';
-import 'package:d2shop_admin/src/screens/users.dart';
+import 'package:d2shop_admin/src/components/side_bar_extended_item.dart';
+import 'package:d2shop_admin/src/components/sidebar_item.dart';
+import 'package:d2shop_admin/src/provider/state.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -12,110 +11,114 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentPage = 0;
-  final List<dynamic> _pages = [
-    [HomePage(), 'Home'],
-    [UsersScreen(), 'Users'],
-    [OrderScreen(), 'Orders'],
-    [CategoryScreen(), 'Category'],
-    [ItemScreen(), 'Items']
-  ];
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return Row(
-      children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: Drawer(
-            child: Container(
-              color: Colors.white,
-              height: size.height,
-              child: Column(
-                children: [
-                  DrawerHeader(
-                    child: Center(
-                      child: Text(
-                        'Admin',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 25,
+    return Consumer<ApplicationState>(
+      builder: (context, value, child) {
+        return Row(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Drawer(
+                child: SingleChildScrollView(
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        DrawerHeader(
+                          child: Center(
+                            child: Text(
+                              value.admin?.username ?? '',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 25,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        SideBarItem(
+                            index: 0,
+                            iconData: FontAwesomeIcons.home,
+                            title: 'Home'),
+                        SideBarItem(
+                            index: 1,
+                            iconData: FontAwesomeIcons.userFriends,
+                            title: 'Customers'),
+                        SideBarItem(
+                            index: 2,
+                            iconData: FontAwesomeIcons.shoppingBag,
+                            title: 'Orders'),
+                        SideBarExtendedItem(dataList: [
+                          SideBarItem(
+                              index: 3,
+                              iconData: FontAwesomeIcons.shoppingBasket,
+                              title: 'Manage Category'),
+                          SideBarItem(
+                              index: 4,
+                              iconData: FontAwesomeIcons.cartPlus,
+                              title: 'Add New Category'),
+                        ], title: "Category"),
+                        SideBarExtendedItem(dataList: [
+                          SideBarItem(
+                              index: 5,
+                              iconData: FontAwesomeIcons.cartPlus,
+                              title: 'Add New Product'),
+                          SideBarItem(
+                              index: 6,
+                              iconData: FontAwesomeIcons.productHunt,
+                              title: 'Manage Product'),
+                        ], title: "Products"),
+                        SideBarItem(
+                            index: 7,
+                            iconData: FontAwesomeIcons.images,
+                            title: 'Featured Banner'),
+                        SideBarExtendedItem(
+                          title: 'Users',
+                          dataList: [
+                            SideBarItem(
+                                index: 8,
+                                iconData: FontAwesomeIcons.users,
+                                title: 'Existing Users'),
+                            SideBarItem(
+                                index: 9,
+                                iconData: FontAwesomeIcons.userPlus,
+                                title: 'Add New User'),
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                  drawerListTile(_pages[0][1], FontAwesomeIcons.home, 0),
-                  drawerListTile(_pages[1][1], FontAwesomeIcons.user, 1),
-                  drawerListTile(_pages[2][1], FontAwesomeIcons.shoppingBag, 2),
-                  drawerListTile(
-                      _pages[3][1], FontAwesomeIcons.shoppingBasket, 3),
-                  drawerListTile(_pages[4][1], FontAwesomeIcons.icons, 4),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-        Expanded(
-          flex: 4,
-          child: Container(
-            decoration: BoxDecoration(color: Colors.white),
-            padding: const EdgeInsets.only(top: 100, left: 20),
-            child: Scaffold(
-              appBar: AppBar(
-                elevation: 0,
-                title: Text(
-                  _pages[_currentPage][1],
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 35,
-                    color: Colors.black,
+            Expanded(
+              flex: 4,
+              child: Container(
+                decoration: BoxDecoration(color: Colors.white),
+                padding: const EdgeInsets.only(top: 100, left: 20),
+                child: Scaffold(
+                  appBar: AppBar(
+                    elevation: 0,
+                    title: Text(
+                      value.appBarTitle,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 35,
+                        color: Colors.black,
+                      ),
+                    ),
+                    backgroundColor: Colors.white,
+                  ),
+                  body: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: value.pages[value.currentIndex],
                   ),
                 ),
-                backgroundColor: Colors.white,
               ),
-              body: _pages[_currentPage][0],
             ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Material drawerListTile(String text, IconData iconData, int index) {
-    return Material(
-      color: index == _currentPage
-          ? Color.fromRGBO(232, 240, 254, 1.0)
-          : Colors.white,
-      animationDuration: Duration(milliseconds: 300),
-      borderRadius: BorderRadius.horizontal(
-        right: Radius.circular(25),
-      ),
-      child: ListTile(
-        leading: FaIcon(
-          iconData,
-          color: index == _currentPage
-              ? Color.fromRGBO(25, 103, 210, 1.0)
-              : Colors.black,
-        ),
-        title: Text(
-          text,
-          style: TextStyle(
-            color: index == _currentPage
-                ? Color.fromRGBO(25, 103, 210, 1.0)
-                : Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
-        onTap: () {
-          setState(() {
-            _currentPage = index;
-          });
-        },
-      ),
+          ],
+        );
+      },
     );
   }
 }
-
-// Color(0xff2A3F54)

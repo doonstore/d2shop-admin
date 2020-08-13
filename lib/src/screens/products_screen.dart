@@ -1,5 +1,4 @@
 import 'package:d2shop_admin/src/components/confirm_dialog.dart';
-import 'package:d2shop_admin/src/components/edit_category.dart';
 import 'package:d2shop_admin/src/components/view_image.dart';
 import 'package:d2shop_admin/src/models/shopping_model.dart';
 import 'package:d2shop_admin/src/services/firestore_services.dart';
@@ -7,49 +6,45 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class CategoryScreen extends StatefulWidget {
-  @override
-  _CategoryScreenState createState() => _CategoryScreenState();
-}
-
-class _CategoryScreenState extends State<CategoryScreen> {
+class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: StreamProvider<List<Category>>.value(
-        value: FirestoreServices().getCategories,
-        child: CategoryTable(),
-      ),
+    return StreamProvider<List<Item>>.value(
+      value: FirestoreServices().getProducts,
+      child: ProductTable(),
     );
   }
 }
 
-class CategoryTable extends StatelessWidget {
+class ProductTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Category> _dataList = Provider.of<List<Category>>(context);
+    List<Item> _productList = Provider.of<List<Item>>(context);
 
-    if (_dataList != null && _dataList.length > 0)
+    if (_productList != null && _productList.length > 0)
       return Container(
         width: MediaQuery.of(context).size.width * 0.75,
         child: DataTable(
           columns: [
             DataColumn(label: Text('ID')),
             DataColumn(label: Text('Name')),
-            DataColumn(label: Text('IsFeatured')),
-            DataColumn(label: Text('Sub - Categories')),
+            DataColumn(label: Text('Category')),
+            DataColumn(label: Text('Quantity')),
+            DataColumn(label: Text('Price')),
             DataColumn(label: Text('Image')),
-            DataColumn(label: Text('Edit')),
-            DataColumn(label: Text('Delete')),
+            DataColumn(label: Text('Actions'))
           ],
-          rows: _dataList.map(
+          rows: _productList.map(
             (data) {
               return DataRow(
                 cells: [
                   DataCell(Text(data.id)),
                   DataCell(Text(data.name)),
-                  DataCell(Text(data.isFeatured ? 'Yes' : 'No')),
-                  DataCell(Text(data.itemList.keys.toList().join(','))),
+                  DataCell(Text(
+                      "${data.partOfCategory}, ${data.partOfSubCategory}")),
+                  DataCell(
+                      Text("${data.quantityValue} (${data.quantityUnit})")),
+                  DataCell(Text("${data.price}")),
                   DataCell(
                     Hero(
                       tag: data.photoUrl,
@@ -68,24 +63,13 @@ class CategoryTable extends StatelessWidget {
                   ),
                   DataCell(
                     IconButton(
-                      icon: FaIcon(FontAwesomeIcons.edit),
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (context) => EditCategory(data),
-                      ),
-                      color: Colors.green,
-                      tooltip: 'Edit Details',
-                    ),
-                  ),
-                  DataCell(
-                    IconButton(
                       icon: FaIcon(FontAwesomeIcons.times),
                       onPressed: () => showDialog(
                         context: context,
                         builder: (context) => ConfirmDialog(
                           title: 'Are you sure to delete ${data.name}?',
                           confirmBtnCallback: () {
-                            FirestoreServices().deleteCategory(data);
+                            FirestoreServices().deleteProduct(data);
                             Navigator.pop(context);
                           },
                         ),
@@ -101,6 +85,6 @@ class CategoryTable extends StatelessWidget {
         ),
       );
     else
-      return Text('No Data Available.');
+      return Text('No Data Avaiable!');
   }
 }

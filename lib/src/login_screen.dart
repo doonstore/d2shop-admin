@@ -15,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      AuthService().login(_email, _pass);
+      AuthService().login(_email, _pass, context);
     }
   }
 
