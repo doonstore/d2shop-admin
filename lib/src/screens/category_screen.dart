@@ -1,3 +1,4 @@
+import 'package:d2shop_admin/src/components/add_sub_category.dart';
 import 'package:d2shop_admin/src/components/confirm_dialog.dart';
 import 'package:d2shop_admin/src/components/edit_category.dart';
 import 'package:d2shop_admin/src/components/view_image.dart';
@@ -39,8 +40,8 @@ class CategoryTable extends StatelessWidget {
             DataColumn(label: Text('IsFeatured')),
             DataColumn(label: Text('Sub - Categories')),
             DataColumn(label: Text('Image')),
-            DataColumn(label: Text('Edit')),
-            DataColumn(label: Text('Delete')),
+            DataColumn(label: Text('Add Sub - Category')),
+            DataColumn(label: Text('Actions')),
           ],
           rows: _dataList.map(
             (data) {
@@ -68,30 +69,43 @@ class CategoryTable extends StatelessWidget {
                   ),
                   DataCell(
                     IconButton(
-                      icon: FaIcon(FontAwesomeIcons.edit),
+                      icon: FaIcon(FontAwesomeIcons.plusSquare),
                       onPressed: () => showDialog(
                         context: context,
-                        builder: (context) => EditCategory(data),
+                        builder: (context) => AddSubCategory(category: data),
                       ),
                       color: Colors.green,
-                      tooltip: 'Edit Details',
+                      tooltip: 'Add Sub - Category',
                     ),
                   ),
                   DataCell(
-                    IconButton(
-                      icon: FaIcon(FontAwesomeIcons.times),
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (context) => ConfirmDialog(
-                          title: 'Are you sure to delete ${data.name}?',
-                          confirmBtnCallback: () {
-                            FirestoreServices().deleteCategory(data);
-                            Navigator.pop(context);
-                          },
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: FaIcon(FontAwesomeIcons.edit),
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (context) => EditCategory(data),
+                          ),
+                          color: Colors.green,
+                          tooltip: 'Edit Details',
                         ),
-                      ),
-                      color: Colors.red,
-                      tooltip: 'Delete',
+                        IconButton(
+                          icon: FaIcon(FontAwesomeIcons.times),
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (context) => ConfirmDialog(
+                              title: 'Are you sure to delete ${data.name}?',
+                              confirmBtnCallback: () {
+                                FirestoreServices().deleteCategory(data);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          color: Colors.red,
+                          tooltip: 'Delete',
+                        ),
+                      ],
                     ),
                   )
                 ],

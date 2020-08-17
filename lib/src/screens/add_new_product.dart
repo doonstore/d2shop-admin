@@ -2,7 +2,9 @@ import 'package:d2shop_admin/src/models/shopping_model.dart';
 import 'package:d2shop_admin/src/services/firebase_storage_service.dart';
 import 'package:d2shop_admin/src/services/firestore_services.dart';
 import 'package:d2shop_admin/src/utils/utils.dart';
+import 'package:d2shop_admin/src/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:universal_html/prefer_universal/html.dart' as html;
 
 class AddNewProduct extends StatefulWidget {
@@ -163,22 +165,25 @@ class _AddNewProductState extends State<AddNewProduct> {
               ),
               SizedBox(height: 10),
               ListTile(
+                leading: FaIcon(FontAwesomeIcons.upload),
                 title: photoUrl != null
                     ? Text('Change Image')
-                    : Text('Choose Image (PNG)'),
+                    : Text('Choose Image (PNG)',
+                        style: TextStyle(color: Colors.blue)),
                 onTap: uploadImage,
-                trailing: photoUrl != null ? Image.network(photoUrl) : null,
+                trailing: photoUrl != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(photoUrl),
+                      )
+                    : null,
               ),
               SizedBox(height: 20),
               !loading
                   ? Align(
                       alignment: Alignment.centerRight,
-                      child: MaterialButton(
-                        onPressed: submit,
-                        child: Text('Add New Product'),
-                        textColor: Colors.blue,
-                        padding: EdgeInsets.all(15),
-                      ),
+                      child:
+                          CustomButton(onTap: submit, text: 'Add New Product'),
                     )
                   : Align(
                       alignment: Alignment.center,

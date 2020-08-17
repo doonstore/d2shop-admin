@@ -37,54 +37,63 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                         SideBarItem(
-                            index: 0,
-                            iconData: FontAwesomeIcons.home,
-                            title: 'Home'),
+                          index: 0,
+                          iconData: FontAwesomeIcons.home,
+                          title: 'Home',
+                        ),
                         SideBarItem(
                             index: 1,
                             iconData: FontAwesomeIcons.userFriends,
                             title: 'Customers'),
                         SideBarItem(
-                            index: 2,
-                            iconData: FontAwesomeIcons.shoppingBag,
-                            title: 'Orders'),
-                        SideBarExtendedItem(dataList: [
-                          SideBarItem(
-                              index: 3,
-                              iconData: FontAwesomeIcons.shoppingBasket,
-                              title: 'Manage Category'),
-                          SideBarItem(
-                              index: 4,
-                              iconData: FontAwesomeIcons.cartPlus,
-                              title: 'Add New Category'),
-                        ], title: "Category"),
-                        SideBarExtendedItem(dataList: [
-                          SideBarItem(
-                              index: 5,
-                              iconData: FontAwesomeIcons.cartPlus,
-                              title: 'Add New Product'),
-                          SideBarItem(
-                              index: 6,
-                              iconData: FontAwesomeIcons.productHunt,
-                              title: 'Manage Product'),
-                        ], title: "Products"),
+                          index: 2,
+                          iconData: FontAwesomeIcons.shoppingBag,
+                          title: 'Orders',
+                        ),
+                        SideBarExtendedItem(
+                          dataList: [
+                            SideBarItem(
+                                index: 3,
+                                iconData: FontAwesomeIcons.shoppingBasket,
+                                title: 'Manage Category'),
+                            SideBarItem(
+                                index: 4,
+                                iconData: FontAwesomeIcons.cartPlus,
+                                title: 'Add New Category'),
+                          ],
+                          title: "Category",
+                        ),
+                        SideBarExtendedItem(
+                          dataList: [
+                            SideBarItem(
+                                index: 5,
+                                iconData: FontAwesomeIcons.cartPlus,
+                                title: 'Add New Product'),
+                            SideBarItem(
+                                index: 6,
+                                iconData: FontAwesomeIcons.productHunt,
+                                title: 'Manage Product'),
+                          ],
+                          title: "Products",
+                        ),
                         SideBarItem(
                             index: 7,
                             iconData: FontAwesomeIcons.images,
                             title: 'Featured Banner'),
-                        SideBarExtendedItem(
-                          title: 'Users',
-                          dataList: [
-                            SideBarItem(
-                                index: 8,
-                                iconData: FontAwesomeIcons.users,
-                                title: 'Existing Users'),
-                            SideBarItem(
-                                index: 9,
-                                iconData: FontAwesomeIcons.userPlus,
-                                title: 'Add New User'),
-                          ],
-                        )
+                        SideBarExtendedItem(dataList: [
+                          SideBarItem(
+                              index: 8,
+                              iconData: FontAwesomeIcons.users,
+                              title: 'Existing Users'),
+                          SideBarItem(
+                              index: 9,
+                              iconData: FontAwesomeIcons.userPlus,
+                              title: 'Add New User'),
+                        ], title: 'Users'),
+                        SideBarItem(
+                            index: 10,
+                            iconData: FontAwesomeIcons.cog,
+                            title: 'Additional Services'),
                       ],
                     ),
                   ),

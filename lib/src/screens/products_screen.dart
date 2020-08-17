@@ -1,4 +1,5 @@
 import 'package:d2shop_admin/src/components/confirm_dialog.dart';
+import 'package:d2shop_admin/src/components/edit_product.dart';
 import 'package:d2shop_admin/src/components/view_image.dart';
 import 'package:d2shop_admin/src/models/shopping_model.dart';
 import 'package:d2shop_admin/src/services/firestore_services.dart';
@@ -44,7 +45,7 @@ class ProductTable extends StatelessWidget {
                       "${data.partOfCategory}, ${data.partOfSubCategory}")),
                   DataCell(
                       Text("${data.quantityValue} (${data.quantityUnit})")),
-                  DataCell(Text("${data.price}")),
+                  DataCell(Text("\u20b9${data.price}")),
                   DataCell(
                     Hero(
                       tag: data.photoUrl,
@@ -62,20 +63,33 @@ class ProductTable extends StatelessWidget {
                     ),
                   ),
                   DataCell(
-                    IconButton(
-                      icon: FaIcon(FontAwesomeIcons.times),
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (context) => ConfirmDialog(
-                          title: 'Are you sure to delete ${data.name}?',
-                          confirmBtnCallback: () {
-                            FirestoreServices().deleteProduct(data);
-                            Navigator.pop(context);
-                          },
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: FaIcon(FontAwesomeIcons.edit),
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (context) => EditProduct(data),
+                          ),
+                          color: Colors.teal,
+                          tooltip: 'Edit',
                         ),
-                      ),
-                      color: Colors.red,
-                      tooltip: 'Delete',
+                        IconButton(
+                          icon: FaIcon(FontAwesomeIcons.times),
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (context) => ConfirmDialog(
+                              title: 'Are you sure to delete ${data.name}?',
+                              confirmBtnCallback: () {
+                                FirestoreServices().deleteProduct(data);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          color: Colors.red,
+                          tooltip: 'Delete',
+                        ),
+                      ],
                     ),
                   )
                 ],

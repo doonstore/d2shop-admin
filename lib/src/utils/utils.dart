@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 /// Firestore Refrences
@@ -10,6 +11,10 @@ final CollectionReference featuredRef = _firestore.collection('featured');
 final CollectionReference requestRef = _firestore.collection('requests');
 final CollectionReference adminRef = _firestore.collection('admins');
 final CollectionReference orderRef = _firestore.collection('orders');
+final CollectionReference servicesRef = _firestore.collection('services');
+
+// Color
+final kPrimaryColor = Color.fromRGBO(232, 240, 254, 1.0);
 
 class Utils {
   static showMessage(String msg) {

@@ -2,7 +2,9 @@ import 'package:d2shop_admin/src/models/shopping_model.dart';
 import 'package:d2shop_admin/src/services/firebase_storage_service.dart';
 import 'package:d2shop_admin/src/services/firestore_services.dart';
 import 'package:d2shop_admin/src/utils/utils.dart';
+import 'package:d2shop_admin/src/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:universal_html/prefer_universal/html.dart' as html;
 
 class AddNewCategory extends StatefulWidget {
@@ -59,7 +61,7 @@ class _AddNewCategoryState extends State<AddNewCategory> {
           children: [
             TextFormField(
               decoration: InputDecoration(
-                labelText: 'Name',
+                labelText: 'Category (Title)',
                 helperText: 'Milk | Grocery',
               ),
               validator: (value) =>
@@ -69,7 +71,7 @@ class _AddNewCategoryState extends State<AddNewCategory> {
             SizedBox(height: 10),
             TextFormField(
               decoration: InputDecoration(
-                labelText: 'Sub - Category',
+                labelText: 'Sub - Category (List)',
                 helperText: 'Comma Seprated (If more than one)',
               ),
               validator: (value) =>
@@ -78,9 +80,13 @@ class _AddNewCategoryState extends State<AddNewCategory> {
             ),
             SizedBox(height: 10),
             ListTile(
+              leading: FaIcon(FontAwesomeIcons.upload),
               title: imageUrl != null
                   ? Text('Change Image (PNG)')
-                  : Text('Choose Image'),
+                  : Text(
+                      'Choose Image',
+                      style: TextStyle(color: Colors.blue),
+                    ),
               onTap: uploadImage,
               trailing: imageUrl != null ? Image.network(imageUrl) : null,
             ),
@@ -88,12 +94,8 @@ class _AddNewCategoryState extends State<AddNewCategory> {
             !loading
                 ? Align(
                     alignment: Alignment.centerRight,
-                    child: MaterialButton(
-                      onPressed: submit,
-                      child: Text('Add New Category'),
-                      textColor: Colors.blue,
-                      padding: EdgeInsets.all(15),
-                    ),
+                    child:
+                        CustomButton(onTap: submit, text: 'Add New Category'),
                   )
                 : Align(
                     alignment: Alignment.center,

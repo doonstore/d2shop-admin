@@ -1,6 +1,7 @@
 import 'package:d2shop_admin/src/models/shopping_model.dart';
 import 'package:d2shop_admin/src/services/firestore_services.dart';
 import 'package:d2shop_admin/src/utils/utils.dart';
+import 'package:d2shop_admin/src/widgets/custom_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 class EditCategory extends StatefulWidget {
@@ -38,54 +39,39 @@ class _EditCategoryState extends State<EditCategory> {
 
   @override
   Widget build(BuildContext context) {
-    final Category category = widget.category;
-
-    return AlertDialog(
-      title: Text('Edit Details'),
-      scrollable: true,
-      content: Container(
-        width: MediaQuery.of(context).size.width * 0.50,
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                initialValue: category.name,
-                decoration: InputDecoration(labelText: 'Category'),
-                onSaved: (newValue) => name = newValue.trim(),
-              ),
-              SizedBox(height: 15),
-              TextFormField(
-                onSaved: (newValue) => sub = newValue.trim(),
-                initialValue: category.itemList.keys.join(','),
-                decoration: InputDecoration(labelText: 'Sub - Category'),
-              ),
-              SizedBox(height: 15),
-              SwitchListTile(
-                value: isFeatured,
-                title: Text('Featured?'),
-                onChanged: (val) {
-                  setState(() {
-                    isFeatured = val;
-                  });
-                },
-              )
-            ],
-          ),
-        ),
-      ),
-      actions: [
-        MaterialButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text('Cancel'),
-          textColor: Colors.blue,
-        ),
-        MaterialButton(
-          onPressed: submit,
-          child: Text('Proceed'),
-          textColor: Colors.blue,
-        ),
-      ],
+    return CustomAlertDialog(
+      submit: submit,
+      title: 'Edit Details',
+      child: child(widget.category),
     );
   }
+
+  Widget child(Category category) => Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              initialValue: category.name,
+              decoration: InputDecoration(labelText: 'Category'),
+              onSaved: (newValue) => name = newValue.trim(),
+            ),
+            SizedBox(height: 15),
+            TextFormField(
+              onSaved: (newValue) => sub = newValue.trim(),
+              initialValue: category.itemList.keys.join(','),
+              decoration: InputDecoration(labelText: 'Sub - Category'),
+            ),
+            SizedBox(height: 15),
+            SwitchListTile(
+              value: isFeatured,
+              title: Text('Featured?'),
+              onChanged: (val) {
+                setState(() {
+                  isFeatured = val;
+                });
+              },
+            )
+          ],
+        ),
+      );
 }

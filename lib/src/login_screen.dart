@@ -1,4 +1,5 @@
 import 'package:d2shop_admin/src/services/auth_service.dart';
+import 'package:d2shop_admin/src/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -94,12 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
-                        child: MaterialButton(
-                          onPressed: submit,
-                          child: Text('Login'),
-                          color: Colors.blue,
-                          textColor: Colors.white,
-                        ),
+                        child: CustomButton(onTap: submit, text: "Login"),
                       ),
                     ],
                   ),

@@ -3,6 +3,7 @@ import 'package:d2shop_admin/src/components/create_new_user.dart';
 import 'package:d2shop_admin/src/models/admin_model.dart';
 import 'package:d2shop_admin/src/provider/state.dart';
 import 'package:d2shop_admin/src/services/auth_service.dart';
+import 'package:d2shop_admin/src/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,26 +51,17 @@ class AddNewUser extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    MaterialButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      onPressed: () =>
-                          resetPassword(context, admin.emailAddress),
-                      child: Text('Change Password'),
-                      textColor: Colors.blue,
-                      padding: EdgeInsets.all(15),
+                    CustomButton(
+                      onTap: () => resetPassword(context, admin.emailAddress),
+                      text: 'Change Password',
                     ),
-                    MaterialButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      onPressed: () => showDialog(
+                    CustomButton(
+                      onTap: () => showDialog(
                         context: context,
                         barrierDismissible: false,
                         builder: (context) => CreateNewUser(),
                       ),
-                      child: Text('Create New User'),
-                      textColor: Colors.blue,
-                      padding: EdgeInsets.all(15),
+                      text: 'Create New User',
                     )
                   ],
                 ),

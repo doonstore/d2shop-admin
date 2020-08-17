@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<ApplicationState>(
       create: (context) => ApplicationState(),
       child: MaterialApp(
-        title: 'DoonStore | Admin Panel',
+        title: 'D2Shop | Admin Panel',
         theme: ThemeData(
           primaryColor: Colors.blue,
           scaffoldBackgroundColor: Colors.white,

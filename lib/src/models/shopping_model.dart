@@ -34,14 +34,12 @@ class Item {
   String id, name, quantityUnit, photoUrl, partOfCategory, partOfSubCategory;
   int quantityValue;
   double price;
-  List categoryList = List();
 
   Item(
       {this.id,
       this.name,
       this.photoUrl,
       this.price,
-      this.categoryList,
       this.quantityUnit,
       this.partOfSubCategory,
       this.partOfCategory,
@@ -57,8 +55,7 @@ class Item {
         partOfCategory = json['partOfCategory'],
         quantityValue = json['quantityValue'],
         quantityUnit = json['quantityUnit'],
-        partOfSubCategory = json['partOfSubCategory'],
-        categoryList = json['categoryList'];
+        partOfSubCategory = json['partOfSubCategory'];
 
   Map<String, dynamic> toJson() {
     return {
@@ -66,7 +63,6 @@ class Item {
       'name': name,
       'photoUrl': photoUrl,
       'price': price,
-      'categoryList': categoryList,
       'partOfCategory': partOfCategory,
       'partOfSubCategory': partOfSubCategory,
       'quantityUnit': quantityUnit,
@@ -76,20 +72,21 @@ class Item {
 }
 
 class OrderModel {
-  String id;
+  String id, deliveryDate;
   Map user;
   List itemList;
   num total;
 
-  OrderModel({this.id, this.itemList, this.user, this.total});
+  OrderModel(
+      {this.id, this.itemList, this.user, this.total, this.deliveryDate});
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
-      id: json['id'],
-      user: json['user'],
-      itemList: json['itemList'],
-      total: json['total'],
-    );
+        id: json['id'],
+        user: json['user'],
+        itemList: json['itemList'],
+        total: json['total'],
+        deliveryDate: json['deliveryDate']);
   }
 
   Map<String, dynamic> toJson() {
@@ -97,7 +94,8 @@ class OrderModel {
       'id': id,
       'user': user,
       'itemList': itemList,
-      'total': total
+      'total': total,
+      'deliveryDate': deliveryDate
     };
   }
 }

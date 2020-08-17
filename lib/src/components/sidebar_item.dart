@@ -1,4 +1,5 @@
 import 'package:d2shop_admin/src/provider/state.dart';
+import 'package:d2shop_admin/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,7 @@ class SideBarItem extends StatelessWidget {
         bool check = index == value.currentIndex;
 
         return Material(
-          color: check ? Color.fromRGBO(232, 240, 254, 1.0) : Colors.white,
+          color: check ? kPrimaryColor : Colors.white,
           animationDuration: Duration(milliseconds: 300),
           borderRadius: BorderRadius.horizontal(
             right: Radius.circular(25),

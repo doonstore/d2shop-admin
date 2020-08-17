@@ -36,22 +36,29 @@ class FirestoreServices {
   Future<void> addNewProduct(Item item) async {
     Category category = await fetchSubCategories(item.partOfCategory);
 
-    List list = category.itemList["${item.partOfSubCategory}"];
-    list.add(item.toJson());
+    category.itemList["${item.partOfSubCategory}"].add(item.toJson());
 
     updateCategory(category);
     return itemRef.document(item.id).setData(item.toJson());
   }
 
-  Future<void> updateProduct(Item item) {
+  Future<void> updateProduct(Item item) async {
+    Category category = await fetchSubCategories(item.partOfCategory);
+
+    category.itemList["${item.partOfSubCategory}"]
+        .removeWhere((element) => element['id'] == item.id);
+    category.itemList["${item.partOfSubCategory}"].add(item.toJson());
+
+    updateCategory(category);
+
     return itemRef.document(item.id).updateData(item.toJson());
   }
 
   Future<void> deleteProduct(Item item) async {
     Category category = await fetchSubCategories(item.partOfCategory);
 
-    List list = category.itemList["${item.partOfSubCategory}"];
-    list.removeWhere((element) => element['name'] == item.name);
+    category.itemList["${item.partOfSubCategory}"]
+        .removeWhere((element) => element['id'] == item.id);
 
     updateCategory(category);
 
@@ -117,5 +124,17 @@ class FirestoreServices {
   Stream<List<OrderModel>> get getOrders {
     return orderRef.snapshots().map(
         (q) => q.documents.map((e) => OrderModel.fromJson(e.data)).toList());
+  }
+
+  // Service Fee
+  Future<num> get serviceFee {
+    return servicesRef
+        .document('serviceFee')
+        .get()
+        .then((value) => value['value']);
+  }
+
+  Future<void> updateServiceFee(num value) {
+    return servicesRef.document('serviceFee').updateData({'value': value});
   }
 }
