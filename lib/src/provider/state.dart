@@ -1,8 +1,10 @@
 import 'package:d2shop_admin/src/models/admin_model.dart';
 import 'package:d2shop_admin/src/screens/add_new_category.dart';
+import 'package:d2shop_admin/src/screens/add_new_coupon.dart';
 import 'package:d2shop_admin/src/screens/add_new_product.dart';
 import 'package:d2shop_admin/src/screens/add_new_user.dart';
 import 'package:d2shop_admin/src/screens/additional_services.dart';
+import 'package:d2shop_admin/src/screens/coupons.dart';
 import 'package:d2shop_admin/src/screens/existing_users.dart';
 import 'package:d2shop_admin/src/screens/featured_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,6 +28,8 @@ class ApplicationState extends ChangeNotifier {
     AddNewCategory(),
     AddNewProduct(),
     ProductScreen(),
+    AddNewCoupon(),
+    CouponScreen(),
     FeaturedPage(),
     UsersScreen(),
     AddNewUser(),

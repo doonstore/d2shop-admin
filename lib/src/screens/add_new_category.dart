@@ -40,6 +40,7 @@ class _AddNewCategoryState extends State<AddNewCategory> {
 
         FirestoreServices().addNewCategory(category).then((value) {
           Utils.showMessage('$name has been succesfully added.');
+          _formKey.currentState.reset();
           setState(() {
             loading = false;
           });

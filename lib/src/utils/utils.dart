@@ -12,6 +12,7 @@ final CollectionReference requestRef = _firestore.collection('requests');
 final CollectionReference adminRef = _firestore.collection('admins');
 final CollectionReference orderRef = _firestore.collection('orders');
 final CollectionReference servicesRef = _firestore.collection('services');
+final CollectionReference couponRef = _firestore.collection('coupons');
 
 // Color
 final kPrimaryColor = Color.fromRGBO(232, 240, 254, 1.0);

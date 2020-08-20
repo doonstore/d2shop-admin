@@ -17,4 +17,19 @@ class FirebaseStorageServices {
       return null;
     }
   }
+
+  Future<String> uploadCsvFile(String data) async {
+    try {
+      fb.UploadTaskSnapshot task = await fb
+          .storage()
+          .ref('CSV/${DateTime.now().millisecondsSinceEpoch}.csv')
+          .put(data)
+          .future;
+
+      return (await task.ref.getDownloadURL()).toString();
+    } catch (e) {
+      Utils.showMessage(e.toString());
+      return null;
+    }
+  }
 }

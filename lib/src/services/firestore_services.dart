@@ -4,6 +4,7 @@ import 'package:d2shop_admin/src/models/doonstore_user.dart';
 import 'package:d2shop_admin/src/models/featured_model.dart';
 import 'package:d2shop_admin/src/models/shopping_model.dart';
 import 'package:d2shop_admin/src/utils/utils.dart';
+import '../models/coupon_model.dart';
 
 class FirestoreServices {
   // Admins
@@ -65,6 +66,19 @@ class FirestoreServices {
     return itemRef.document(item.id).delete();
   }
 
+  // Orders
+  Future<List<OrderModel>> getOrdersDocuments() {
+    return orderRef.getDocuments().then((value) =>
+        value.documents.map((e) => OrderModel.fromJson(e.data)).toList());
+  }
+
+  // Coupon
+  Future<void> addNewCoupon(CouponModel couponModel) {
+    return couponRef
+        .document(couponModel.promoCode)
+        .setData(couponModel.toJson());
+  }
+
   // Featured Tab
   Future<void> addFeaturedBanner(FeaturedModel featuredModel) {
     return featuredRef
@@ -124,6 +138,11 @@ class FirestoreServices {
   Stream<List<OrderModel>> get getOrders {
     return orderRef.snapshots().map(
         (q) => q.documents.map((e) => OrderModel.fromJson(e.data)).toList());
+  }
+
+  Stream<List<CouponModel>> get getCoupons {
+    return couponRef.snapshots().map(
+        (q) => q.documents.map((e) => CouponModel.fromJson(e.data)).toList());
   }
 
   // Service Fee

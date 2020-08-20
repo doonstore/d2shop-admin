@@ -76,22 +76,35 @@ class _MainScreenState extends State<MainScreen> {
                           ],
                           title: "Products",
                         ),
+                        SideBarExtendedItem(
+                          dataList: [
+                            SideBarItem(
+                                index: 7,
+                                iconData: FontAwesomeIcons.gift,
+                                title: 'Add New Coupon'),
+                            SideBarItem(
+                                index: 8,
+                                iconData: FontAwesomeIcons.gifts,
+                                title: 'Manage Coupons'),
+                          ],
+                          title: "Coupons",
+                        ),
                         SideBarItem(
-                            index: 7,
+                            index: 9,
                             iconData: FontAwesomeIcons.images,
                             title: 'Featured Banner'),
                         SideBarExtendedItem(dataList: [
                           SideBarItem(
-                              index: 8,
+                              index: 10,
                               iconData: FontAwesomeIcons.users,
                               title: 'Existing Users'),
                           SideBarItem(
-                              index: 9,
+                              index: 11,
                               iconData: FontAwesomeIcons.userPlus,
                               title: 'Add New User'),
                         ], title: 'Users'),
                         SideBarItem(
-                            index: 10,
+                            index: 12,
                             iconData: FontAwesomeIcons.cog,
                             title: 'Additional Services'),
                       ],

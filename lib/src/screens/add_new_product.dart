@@ -31,17 +31,19 @@ class _AddNewProductState extends State<AddNewProduct> {
         id = (await _getId()).toString();
 
         Item item = Item(
-            id: id,
-            name: name,
-            partOfCategory: category,
-            partOfSubCategory: subCategory,
-            quantityUnit: quantityUnit,
-            quantityValue: quantityValue,
-            price: price,
-            photoUrl: photoUrl);
+          id: id,
+          name: name,
+          partOfCategory: category,
+          partOfSubCategory: subCategory,
+          quantityUnit: quantityUnit,
+          quantityValue: quantityValue,
+          price: price,
+          photoUrl: photoUrl,
+        );
 
         FirestoreServices().addNewProduct(item).then((value) {
           Utils.showMessage("$name has been succesfully added.");
+          _formKey.currentState.reset();
           setState(() {
             loading = false;
           });

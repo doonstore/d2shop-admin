@@ -34,12 +34,12 @@ dependencies:
   cloud_firestore_web: ^0.1.1+2
   font_awesome_flutter: ^8.8.1
   provider: ^4.3.1
-  image_picker: ^0.6.7
-  image_picker_for_web: ^0.1.0
   firebase_storage: ^3.1.6
   firebase: ^7.3.0
   universal_html: ^1.2.3
   intl: ^0.16.1
+  csv: ^4.0.3
+  http: ^0.12.2
 
 dev_dependencies:
   flutter_test:
@@ -81,4 +81,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-

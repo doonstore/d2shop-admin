@@ -47,7 +47,9 @@ class UsersTable extends StatelessWidget {
                   DataCell(Text('\u20b9' + user.wallet.toString())),
                   DataCell(
                     MaterialButton(
-                      onPressed: user.transactions.isNotEmpty ? () {} : null,
+                      onPressed: user.transactions.isNotEmpty
+                          ? () => showTransactions(context, user)
+                          : null,
                       child: user.transactions.isEmpty
                           ? Text('No Transactions')
                           : Text('All Transactions'),
@@ -79,14 +81,21 @@ class UsersTable extends StatelessWidget {
       return Center(child: Text('No Data Available!'));
   }
 
-  showTransactions(BuildContext context) {
+  showTransactions(BuildContext context, DoonStoreUser user) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         scrollable: true,
-        content: SingleChildScrollView(
+        content: Container(
+          width: MediaQuery.of(context).size.width * 0.50,
           child: Column(
-            children: [],
+            children: user.transactions
+                .map(
+                  (e) => ListTile(
+                    title: Text('hey'),
+                  ),
+                )
+                .toList(),
           ),
         ),
       ),
