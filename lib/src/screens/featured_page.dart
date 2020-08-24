@@ -69,7 +69,23 @@ class _FeaturedPageState extends State<FeaturedPage> {
             ),
             StreamProvider<List<FeaturedModel>>.value(
               value: FirestoreServices().getFeaturedHeaders,
-              builder: (context, child) => FeaturedTable(),
+              builder: (context, child) {
+                final List<FeaturedModel> _dataList =
+                    Provider.of<List<FeaturedModel>>(context);
+
+                if (_dataList != null && _dataList.length > 0)
+                  return ListView.builder(
+                    itemCount: _dataList.length,
+                    itemBuilder: (context, index) => Container(
+                      height: 300,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(_dataList[index].photoUrl),
+                      ),
+                    ),
+                  );
+                return Container();
+              },
             ),
           ],
         ),
@@ -105,26 +121,5 @@ class _FeaturedPageState extends State<FeaturedPage> {
         );
       },
     );
-  }
-}
-
-class FeaturedTable extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final List<FeaturedModel> _dataList =
-        Provider.of<List<FeaturedModel>>(context);
-
-    if (_dataList != null && _dataList.length > 0)
-      return ListView.builder(
-        itemCount: _dataList.length,
-        itemBuilder: (context, index) => Container(
-          height: 300,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.network(_dataList[index].photoUrl),
-          ),
-        ),
-      );
-    return Container();
   }
 }

@@ -1,12 +1,39 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:d2shop_admin/src/models/admin_model.dart';
+import 'package:d2shop_admin/src/models/apartment_model.dart';
+import 'package:d2shop_admin/src/models/chat_model.dart';
 import 'package:d2shop_admin/src/models/doonstore_user.dart';
 import 'package:d2shop_admin/src/models/featured_model.dart';
+import 'package:d2shop_admin/src/models/message_model.dart';
 import 'package:d2shop_admin/src/models/shopping_model.dart';
 import 'package:d2shop_admin/src/utils/utils.dart';
+import 'package:uuid/uuid.dart';
 import '../models/coupon_model.dart';
 
 class FirestoreServices {
+  // Users
+  Future<DoonStoreUser> getUser(String id) {
+    return userRef
+        .document(id)
+        .get()
+        .then((value) => DoonStoreUser.fromJson(value.data));
+  }
+
+  Future<void> sendMessageToSupport(SupportMessages supportMessages) {
+    return chatRef
+        .document(supportMessages.id)
+        .setData(supportMessages.toJson());
+  }
+
+  Future<List<OrderModel>> getOrdersByLimit(int limit) {
+    return orderRef
+        .limit(limit)
+        .orderBy("orderDate", descending: false)
+        .getDocuments()
+        .then((value) =>
+            value.documents.map((e) => OrderModel.fromJson(e.data)).toList());
+  }
+
   // Admins
   Future<void> saveAdminData(AdminModel admin) {
     return adminRef.document(admin.emailAddress).setData(admin.toMap());
@@ -72,11 +99,31 @@ class FirestoreServices {
         value.documents.map((e) => OrderModel.fromJson(e.data)).toList());
   }
 
+  // Apartment
+  Future<void> addNewApartment(ApartmentModel apartmentModel) {
+    return apartmentRef
+        .document(apartmentModel.value)
+        .setData(apartmentModel.toJson());
+  }
+
+  Future<void> deleteApartment(ApartmentModel apartmentModel) {
+    return apartmentRef.document(apartmentModel.value).delete();
+  }
+
   // Coupon
   Future<void> addNewCoupon(CouponModel couponModel) {
     return couponRef
         .document(couponModel.promoCode)
         .setData(couponModel.toJson());
+  }
+
+  Future<void> removeCoupon(CouponModel couponModel) {
+    return couponRef.document(couponModel.promoCode).delete();
+  }
+
+  // Notifications
+  Future<void> addNotification(Message msg) {
+    return notificationRef.document(Uuid().v4()).setData(msg.toJson());
   }
 
   // Featured Tab
@@ -129,6 +176,11 @@ class FirestoreServices {
         (q) => q.documents.map((e) => FeaturedModel.fromJSON(e.data)).toList());
   }
 
+  Stream<List<ApartmentModel>> get getApartments {
+    return apartmentRef.snapshots().map((q) =>
+        q.documents.map((e) => ApartmentModel.fromJson(e.data)).toList());
+  }
+
   Stream<List<Item>> get getProducts {
     return itemRef
         .snapshots()
@@ -140,9 +192,20 @@ class FirestoreServices {
         (q) => q.documents.map((e) => OrderModel.fromJson(e.data)).toList());
   }
 
+  Stream<List<SupportMessages>> get getMessages {
+    return chatRef.snapshots().map((q) =>
+        q.documents.map((e) => SupportMessages.fromJson(e.data)).toList());
+  }
+
   Stream<List<CouponModel>> get getCoupons {
     return couponRef.snapshots().map(
         (q) => q.documents.map((e) => CouponModel.fromJson(e.data)).toList());
+  }
+
+  Stream<List<Message>> get getNotifications {
+    return notificationRef
+        .snapshots()
+        .map((q) => q.documents.map((e) => Message.fromJson(e.data)).toList());
   }
 
   // Service Fee

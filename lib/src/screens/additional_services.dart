@@ -37,6 +37,7 @@ class _AdditionalServicesState extends State<AdditionalServices> {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.35,
+        height: MediaQuery.of(context).size.height,
         child: Form(
           key: _formKey,
           child: Column(
@@ -49,9 +50,9 @@ class _AdditionalServicesState extends State<AdditionalServices> {
 
                   return TextFormField(
                     initialValue: snapshot.data.toString(),
-                    decoration: InputDecoration(
-                      labelText: 'Service Fee',
-                      helperText: 'Note: Numeric Value Only',
+                    decoration: Utils.inputDecoration(
+                      "Service Fee (Numeric Value)",
+                      helper: "3",
                       icon: FaIcon(FontAwesomeIcons.rupeeSign),
                     ),
                     onSaved: (newValue) =>

@@ -3,6 +3,7 @@ import 'package:d2shop_admin/src/components/create_new_user.dart';
 import 'package:d2shop_admin/src/models/admin_model.dart';
 import 'package:d2shop_admin/src/provider/state.dart';
 import 'package:d2shop_admin/src/services/auth_service.dart';
+import 'package:d2shop_admin/src/utils/utils.dart';
 import 'package:d2shop_admin/src/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,30 +23,22 @@ class AddNewUser extends StatelessWidget {
               children: [
                 TextFormField(
                   initialValue: admin?.firstName ?? '',
-                  decoration: InputDecoration(
-                    labelText: 'First Name',
-                  ),
+                  decoration: Utils.inputDecoration("First Name"),
                 ),
                 SizedBox(height: 10),
                 TextFormField(
                   initialValue: admin?.lastName ?? '',
-                  decoration: InputDecoration(
-                    labelText: 'Last Name',
-                  ),
+                  decoration: Utils.inputDecoration("Last Name"),
                 ),
                 SizedBox(height: 10),
                 TextFormField(
                   initialValue: admin?.username ?? '',
-                  decoration: InputDecoration(
-                    labelText: 'Username',
-                  ),
+                  decoration: Utils.inputDecoration("Username"),
                 ),
                 SizedBox(height: 10),
                 TextFormField(
                   initialValue: admin?.emailAddress ?? '',
-                  decoration: InputDecoration(
-                    labelText: 'Email Address',
-                  ),
+                  decoration: Utils.inputDecoration("Email Address"),
                 ),
                 SizedBox(height: 20),
                 Row(

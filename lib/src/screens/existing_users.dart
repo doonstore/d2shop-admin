@@ -17,67 +17,63 @@ class _UsersScreenState extends State<UsersScreen> {
     return SingleChildScrollView(
       child: StreamProvider<List<AdminModel>>.value(
         value: FirestoreServices().getAdmins,
-        builder: (context, child) => AdminTable(),
+        builder: (context, child) {
+          List<AdminModel> _dataList = Provider.of<List<AdminModel>>(context);
+
+          if (_dataList != null && _dataList.length > 0)
+            return Container(
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: DataTable(
+                columns: [
+                  DataColumn(label: Text('Username')),
+                  DataColumn(label: Text('First Name')),
+                  DataColumn(label: Text('Last Name')),
+                  DataColumn(label: Text('Email Address')),
+                  DataColumn(label: Text('Status')),
+                  DataColumn(label: Text('Actions'))
+                ],
+                rows: _dataList.map(
+                  (data) {
+                    return DataRow(
+                      cells: [
+                        DataCell(Text(data.username)),
+                        DataCell(Text(data.firstName)),
+                        DataCell(Text(data.lastName)),
+                        DataCell(Text(data.emailAddress)),
+                        DataCell(
+                          Tooltip(
+                            message: data.status == 101
+                                ? 'Verfication mail has been sent to ${data.emailAddress}'
+                                : '',
+                            child: Text(
+                              getStatus(data.status),
+                              style: TextStyle(
+                                color: data.status == 200
+                                    ? Colors.green
+                                    : Colors.blue,
+                              ),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          IconButton(
+                            icon: FaIcon(FontAwesomeIcons.times),
+                            onPressed: () => removeAdmin(context, data),
+                            color: Colors.red,
+                            tooltip: 'Delete',
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ).toList(),
+              ),
+            );
+          else
+            return Center(child: Text('No Data Available.'));
+        },
       ),
     );
-  }
-}
-
-class AdminTable extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    List<AdminModel> _dataList = Provider.of<List<AdminModel>>(context);
-
-    if (_dataList != null && _dataList.length > 0)
-      return Container(
-        width: MediaQuery.of(context).size.width * 0.75,
-        child: DataTable(
-          columns: [
-            DataColumn(label: Text('Username')),
-            DataColumn(label: Text('First Name')),
-            DataColumn(label: Text('Last Name')),
-            DataColumn(label: Text('Email Address')),
-            DataColumn(label: Text('Status')),
-            DataColumn(label: Text('Actions'))
-          ],
-          rows: _dataList.map(
-            (data) {
-              return DataRow(
-                cells: [
-                  DataCell(Text(data.username)),
-                  DataCell(Text(data.firstName)),
-                  DataCell(Text(data.lastName)),
-                  DataCell(Text(data.emailAddress)),
-                  DataCell(
-                    Tooltip(
-                      message: data.status == 101
-                          ? 'Verfication mail has been sent to ${data.emailAddress}'
-                          : '',
-                      child: Text(
-                        getStatus(data.status),
-                        style: TextStyle(
-                          color:
-                              data.status == 200 ? Colors.green : Colors.blue,
-                        ),
-                      ),
-                    ),
-                  ),
-                  DataCell(
-                    IconButton(
-                      icon: FaIcon(FontAwesomeIcons.times),
-                      onPressed: () => removeAdmin(context, data),
-                      color: Colors.red,
-                      tooltip: 'Delete',
-                    ),
-                  )
-                ],
-              );
-            },
-          ).toList(),
-        ),
-      );
-    else
-      return Center(child: Text('No Data Available.'));
   }
 
   String getStatus(int status) {

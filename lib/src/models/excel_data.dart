@@ -1,7 +1,25 @@
 class ExcelData {
-  String id, name, number;
+  static const String URL =
+      "https://script.google.com/macros/s/AKfycbzkW52CgICPx19iWkWh7pXdcBabXsfhjKv4Jg3H7EFWeMuXQ1Zs/exec";
+  final String name,
+      number,
+      address,
+      products,
+      noOfProducts,
+      orderDate,
+      deliveryDate,
+      price;
 
-  ExcelData({this.id, this.name, this.number});
+  const ExcelData(
+      {this.name,
+      this.number,
+      this.address,
+      this.noOfProducts,
+      this.orderDate,
+      this.deliveryDate,
+      this.products,
+      this.price});
 
-  String toParam() => "?id=$id&name=$name&number=$number";
+  String toParam() =>
+      "?name=$name&number=$number&address=$address&noOfProducts=$noOfProducts&orderDate=$orderDate&deliveryDate=$deliveryDate&price=$price&products=$products";
 }

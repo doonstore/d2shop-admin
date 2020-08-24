@@ -7,13 +7,23 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: onTap,
-      textColor: Colors.white,
-      child: Text(text),
-      color: Colors.blueAccent,
-      animationDuration: Duration(milliseconds: 300),
-      padding: EdgeInsets.all(15),
+    return GestureDetector(
+      onTap: onTap,
+      child: Material(
+        color: Color.fromRGBO(46, 174, 227, 1.0),
+        animationDuration: Duration(milliseconds: 400),
+        elevation: 5.0,
+        shape: StadiumBorder(),
+        child: Container(
+          padding: EdgeInsets.all(15),
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

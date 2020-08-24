@@ -50,59 +50,44 @@ class _MainScreenState extends State<MainScreen> {
                           iconData: FontAwesomeIcons.shoppingBag,
                           title: 'Orders',
                         ),
-                        SideBarExtendedItem(
-                          dataList: [
-                            SideBarItem(
-                                index: 3,
-                                iconData: FontAwesomeIcons.shoppingBasket,
-                                title: 'Manage Category'),
-                            SideBarItem(
-                                index: 4,
-                                iconData: FontAwesomeIcons.cartPlus,
-                                title: 'Add New Category'),
-                          ],
-                          title: "Category",
-                        ),
-                        SideBarExtendedItem(
-                          dataList: [
-                            SideBarItem(
-                                index: 5,
-                                iconData: FontAwesomeIcons.cartPlus,
-                                title: 'Add New Product'),
-                            SideBarItem(
-                                index: 6,
-                                iconData: FontAwesomeIcons.productHunt,
-                                title: 'Manage Product'),
-                          ],
-                          title: "Products",
-                        ),
-                        SideBarExtendedItem(
-                          dataList: [
-                            SideBarItem(
-                                index: 7,
-                                iconData: FontAwesomeIcons.gift,
-                                title: 'Add New Coupon'),
-                            SideBarItem(
-                                index: 8,
-                                iconData: FontAwesomeIcons.gifts,
-                                title: 'Manage Coupons'),
-                          ],
-                          title: "Coupons",
-                        ),
                         SideBarItem(
-                            index: 9,
+                            index: 3,
+                            iconData: FontAwesomeIcons.shoppingBasket,
+                            title: 'Category'),
+                        SideBarItem(
+                            index: 4,
+                            iconData: FontAwesomeIcons.productHunt,
+                            title: 'Products'),
+                        SideBarItem(
+                            index: 5,
+                            iconData: FontAwesomeIcons.gifts,
+                            title: 'Coupons'),
+                        SideBarItem(
+                            index: 6,
+                            iconData: FontAwesomeIcons.userCheck,
+                            title: 'Chat - Support'),
+                        SideBarItem(
+                            index: 7,
+                            iconData: FontAwesomeIcons.paperPlane,
+                            title: 'Send Notifications'),
+                        SideBarItem(
+                            index: 8,
                             iconData: FontAwesomeIcons.images,
                             title: 'Featured Banner'),
                         SideBarExtendedItem(dataList: [
                           SideBarItem(
-                              index: 10,
+                              index: 9,
                               iconData: FontAwesomeIcons.users,
                               title: 'Existing Users'),
                           SideBarItem(
-                              index: 11,
+                              index: 10,
                               iconData: FontAwesomeIcons.userPlus,
                               title: 'Add New User'),
                         ], title: 'Users'),
+                        SideBarItem(
+                            index: 11,
+                            iconData: FontAwesomeIcons.city,
+                            title: "Apartment List"),
                         SideBarItem(
                             index: 12,
                             iconData: FontAwesomeIcons.cog,
@@ -116,7 +101,7 @@ class _MainScreenState extends State<MainScreen> {
             Expanded(
               flex: 4,
               child: Container(
-                decoration: BoxDecoration(color: Colors.white),
+                color: Colors.white,
                 padding: const EdgeInsets.only(top: 100, left: 20),
                 child: Scaffold(
                   appBar: AppBar(
@@ -126,7 +111,7 @@ class _MainScreenState extends State<MainScreen> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 35,
-                        color: Colors.black,
+                        color: Colors.blueGrey[700],
                       ),
                     ),
                     backgroundColor: Colors.white,
