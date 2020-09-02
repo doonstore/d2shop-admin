@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 /// Firestore Refrences
-final Firestore _firestore = Firestore.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final CollectionReference userRef = _firestore.collection('users');
 final CollectionReference itemRef = _firestore.collection('item');
 final CollectionReference categoryRef = _firestore.collection('category');
@@ -20,15 +20,28 @@ final CollectionReference notificationRef =
     _firestore.collection('notifications');
 
 // Color
+final kColor = Color.fromRGBO(0, 191, 166, 1);
 final kPrimaryColor = Color.fromRGBO(232, 240, 254, 1.0);
 
 class Utils {
-  static Widget makeDecision(List dataList, BuildContext context,
-      {Widget child}) {
-    if (dataList == null) return loading();
-    if (dataList.length == 0) return noDataWidget(context);
+  static AppBar appBar(String title) {
+    return AppBar(
+      backgroundColor: Colors.teal,
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.white),
+      ),
+      elevation: 0.0,
+    );
+  }
 
-    return child;
+  static FloatingActionButton fab(String text, Function onTap) {
+    return FloatingActionButton.extended(
+      onPressed: onTap,
+      label: Text(text),
+      icon: Icon(Icons.add),
+      backgroundColor: kColor,
+    );
   }
 
   static Widget loading() {
@@ -39,12 +52,12 @@ class Utils {
 
   static Widget loadingBtn() {
     return Material(
-      color: Color.fromRGBO(46, 174, 227, 1.0),
+      color: kColor,
       animationDuration: Duration(milliseconds: 400),
       elevation: 8.0,
       shape: StadiumBorder(),
       child: Padding(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

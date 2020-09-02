@@ -153,7 +153,10 @@ class _ChooseOrderLimitState extends State<ChooseOrderLimit> {
         Utils.showMessage("Error: $e");
       });
       return Future.value(true);
-    }).then((value) => Utils.showMessage(result['status']));
+    }).then((value) {
+      Utils.showMessage(result['status']);
+      Navigator.pop(context);
+    });
   }
 
   @override

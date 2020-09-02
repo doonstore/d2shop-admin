@@ -14,10 +14,11 @@ class AuthService {
 
   Future<void> addNewUser(AdminModel adminModel, String pass) async {
     try {
-      final AuthResult authResult = await _auth.createUserWithEmailAndPassword(
-          email: adminModel.emailAddress, password: pass);
+      final UserCredential authResult =
+          await _auth.createUserWithEmailAndPassword(
+              email: adminModel.emailAddress, password: pass);
 
-      final FirebaseUser firebaseUser = authResult.user;
+      final User firebaseUser = authResult.user;
 
       if (firebaseUser != null) {
         firebaseUser.sendEmailVerification();
@@ -30,14 +31,14 @@ class AuthService {
 
   login(String email, String password, BuildContext context) async {
     try {
-      AuthResult authResult = await _auth.signInWithEmailAndPassword(
+      UserCredential authResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (authResult.user != null) {
-        DocumentSnapshot doc = await adminRef.document(email).get();
+        DocumentSnapshot doc = await adminRef.doc(email).get();
 
         if (doc.exists) {
           Provider.of<ApplicationState>(context, listen: false)
-              .setAdmin(AdminModel.fromJson(doc.data));
+              .setAdmin(AdminModel.fromJson(doc.data()));
 
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => MainScreen()));

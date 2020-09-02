@@ -21,6 +21,12 @@ class ApplicationState extends ChangeNotifier {
   int currentIndex = 0;
   String appBarTitle = '';
   st.Category category;
+  bool _adding = false, _loading = false;
+
+  bool get isAdding => _adding;
+  bool get isLoading => _loading;
+
+  Widget get currentWidget => pages[currentIndex];
 
   final List<Widget> pages = <Widget>[
     HomePage(),
@@ -46,6 +52,16 @@ class ApplicationState extends ChangeNotifier {
   changeIndex(int val, String value) {
     this.currentIndex = val;
     this.appBarTitle = value;
+    notifyListeners();
+  }
+
+  setLoading(bool val) {
+    this._loading = val;
+    notifyListeners();
+  }
+
+  changeAdding(bool val) {
+    this._adding = val;
     notifyListeners();
   }
 

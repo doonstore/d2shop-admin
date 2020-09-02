@@ -27,12 +27,12 @@ class SideBarItem extends StatelessWidget {
           child: ListTile(
             leading: FaIcon(
               iconData,
-              color: check ? Color.fromRGBO(25, 103, 210, 1.0) : Colors.black,
+              color: check ? kColor : Colors.blueGrey,
             ),
             title: Text(
               title,
               style: TextStyle(
-                color: check ? Color.fromRGBO(25, 103, 210, 1.0) : Colors.black,
+                color: check ? kColor : Colors.blueGrey,
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
               ),

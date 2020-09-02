@@ -34,39 +34,36 @@ class _AdditionalServicesState extends State<AdditionalServices> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.35,
-        height: MediaQuery.of(context).size.height,
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              FutureBuilder<num>(
-                future: FirestoreServices().serviceFee,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return Text('Please Wait.. Fetching data from the server');
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.35,
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            FutureBuilder<num>(
+              future: FirestoreServices().serviceFee,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Text('Please Wait.. Fetching data from the server');
 
-                  return TextFormField(
-                    initialValue: snapshot.data.toString(),
-                    decoration: Utils.inputDecoration(
-                      "Service Fee (Numeric Value)",
-                      helper: "3",
-                      icon: FaIcon(FontAwesomeIcons.rupeeSign),
-                    ),
-                    onSaved: (newValue) =>
-                        serviceFee = num.parse(newValue.trim()),
-                  );
-                },
-              ),
-              SizedBox(height: 15),
-              Align(
-                alignment: Alignment.centerRight,
-                child: CustomButton(onTap: submit, text: 'Make Changes'),
-              )
-            ],
-          ),
+                return TextFormField(
+                  initialValue: snapshot.data.toString(),
+                  decoration: Utils.inputDecoration(
+                    "Service Fee (Numeric Value)",
+                    helper: "3",
+                    icon: FaIcon(FontAwesomeIcons.rupeeSign),
+                  ),
+                  onSaved: (newValue) =>
+                      serviceFee = num.parse(newValue.trim()),
+                );
+              },
+            ),
+            SizedBox(height: 15),
+            Align(
+              alignment: Alignment.centerRight,
+              child: CustomButton(onTap: submit, text: 'Make Changes'),
+            )
+          ],
         ),
       ),
     );

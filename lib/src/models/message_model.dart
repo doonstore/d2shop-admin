@@ -4,7 +4,7 @@ import 'package:d2shop_admin/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
 class Message {
-  static const String serverToken = '';
+  static const String serverToken = 'AAAA97iVVhA:APA91bFLwVMERV7pUrXjIcQGtaklgNspBhIMeXmqKn8excqVHHBGs4RsjgiMNu--s4-WkejPqLHG1ZyrSQPOV7sPFwrmX3pKLUZ77eJ5odtCdCegy15-y2mEicLYb1qR0yXGk8x37E8y';
   final String title, body, imageUrl;
   String date;
 

@@ -1,4 +1,6 @@
+import 'package:d2shop_admin/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class CustomButton extends StatelessWidget {
   final Function onTap;
@@ -7,22 +9,19 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Material(
-        color: Color.fromRGBO(46, 174, 227, 1.0),
+    return Container(
+      width: double.infinity,
+      height: 45,
+      child: RaisedButton(
+        onPressed: onTap,
+        child: Text(text),
+        textColor: Colors.white,
+        elevation: 2.0,
+        hoverElevation: 10.0,
+        hoverColor: Colors.teal,
+        color: kColor,
         animationDuration: Duration(milliseconds: 400),
-        elevation: 5.0,
-        shape: StadiumBorder(),
-        child: Container(
-          padding: EdgeInsets.all(15),
-          child: Center(
-            child: Text(
-              text,
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       ),
     );
   }

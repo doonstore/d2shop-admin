@@ -46,94 +46,97 @@ class _PushNotificationState extends State<PushNotification> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          Expanded(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    decoration: Utils.inputDecoration("Notification Title"),
-                    validator: (value) =>
-                        value.isEmpty ? 'This field is required.' : null,
-                    onSaved: (newValue) => title = newValue.trim(),
-                  ),
-                  SizedBox(height: 10),
-                  TextFormField(
-                    decoration: Utils.inputDecoration("Notification Body"),
-                    validator: (value) =>
-                        value.isEmpty ? 'This field is required.' : null,
-                    onSaved: (newValue) => body = newValue.trim(),
-                  ),
-                  SizedBox(height: 10),
-                  Material(
-                    color: Colors.blue,
-                    elevation: 5.0,
-                    borderRadius: BorderRadius.circular(12),
-                    child: ListTile(
-                      leading: imageUrl != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(imageUrl),
-                            )
-                          : null,
-                      trailing:
-                          FaIcon(FontAwesomeIcons.image, color: Colors.white),
-                      title: Text(
-                        'Choose Image (Optional)',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onTap: uploadImage,
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.all(15),
+        child: Row(
+          children: [
+            Expanded(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      decoration: Utils.inputDecoration("Notification Title"),
+                      validator: (value) =>
+                          value.isEmpty ? 'This field is required.' : null,
+                      onSaved: (newValue) => title = newValue.trim(),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  !loading
-                      ? Align(
-                          alignment: Alignment.centerRight,
-                          child: CustomButton(
-                              onTap: sendNotification,
-                              text: "Send Notification"),
-                        )
-                      : Utils.loadingBtn(),
-                ],
+                    SizedBox(height: 10),
+                    TextFormField(
+                      decoration: Utils.inputDecoration("Notification Body"),
+                      validator: (value) =>
+                          value.isEmpty ? 'This field is required.' : null,
+                      onSaved: (newValue) => body = newValue.trim(),
+                    ),
+                    SizedBox(height: 10),
+                    Material(
+                      color: Colors.blue,
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.circular(12),
+                      child: ListTile(
+                        leading: imageUrl != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(imageUrl),
+                              )
+                            : null,
+                        trailing:
+                            FaIcon(FontAwesomeIcons.image, color: Colors.white),
+                        title: Text(
+                          'Choose Image (Optional)',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: uploadImage,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    !loading
+                        ? Align(
+                            alignment: Alignment.centerRight,
+                            child: CustomButton(
+                                onTap: sendNotification,
+                                text: "Send Notification"),
+                          )
+                        : Utils.loadingBtn(),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(width: 20),
-          Expanded(
-            child: StreamProvider<List<Message>>.value(
-              value: FirestoreServices().getNotifications,
-              builder: (context, child) {
-                List<Message> _dataList = Provider.of<List<Message>>(context);
+            SizedBox(width: 20),
+            Expanded(
+              child: StreamProvider<List<Message>>.value(
+                value: FirestoreServices().getNotifications,
+                builder: (context, child) {
+                  List<Message> _dataList = Provider.of<List<Message>>(context);
 
-                if (_dataList == null) return Utils.loading();
-                if (_dataList.length == 0) return Utils.noDataWidget(context);
+                  if (_dataList == null) return Utils.loading();
+                  if (_dataList.length == 0) return Utils.noDataWidget(context);
 
-                return ListView.builder(
-                  itemCount: _dataList.length,
-                  itemBuilder: (context, index) {
-                    Message msg = _dataList[index];
+                  return ListView.builder(
+                    itemCount: _dataList.length,
+                    itemBuilder: (context, index) {
+                      Message msg = _dataList[index];
 
-                    return CustomCard(
-                      title: msg.title,
-                      subtitle: msg.body,
-                      imageUrl: msg.imageUrl,
-                      trailing: Text(
-                        DateFormat.yMMMMEEEEd()
-                            .add_jms()
-                            .format(DateTime.parse(msg.date)),
-                        style: TextStyle(color: Colors.indigo),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          )
-        ],
+                      return CustomCard(
+                        title: msg.title,
+                        subtitle: msg.body,
+                        imageUrl: msg.imageUrl,
+                        trailing: Text(
+                          DateFormat.yMMMMEEEEd()
+                              .add_jms()
+                              .format(DateTime.parse(msg.date)),
+                          style: TextStyle(color: Colors.indigo),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

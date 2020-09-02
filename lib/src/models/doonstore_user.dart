@@ -21,10 +21,10 @@ class DoonStoreUser {
       this.photoUrl,
       this.lastLogin});
 
-  factory DoonStoreUser.fromFirebase(FirebaseUser user) => DoonStoreUser(
+  factory DoonStoreUser.fromFirebase(User user) => DoonStoreUser(
       userId: user.uid,
       displayName: user.displayName ?? '',
-      photoUrl: user.photoUrl ?? '',
+      photoUrl: user.photoURL ?? '',
       address: {},
       transactions: [],
       doorBellStatus: false,

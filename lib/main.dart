@@ -1,5 +1,6 @@
 import 'package:d2shop_admin/src/login_screen.dart';
 import 'package:d2shop_admin/src/provider/state.dart';
+import 'package:d2shop_admin/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'D2Shop | Admin Panel',
         theme: ThemeData(
-          primaryColor: Colors.blue,
+          primaryColor: kColor,
           scaffoldBackgroundColor: Colors.white,
           dialogTheme: DialogTheme(
             shape: RoundedRectangleBorder(

@@ -18,89 +18,93 @@ class _ApartmentState extends State<Apartment> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                TextField(
-                  controller: _tec,
-                  decoration: Utils.inputDecoration(
-                    "Enter Apartment",
-                    icon: FaIcon(FontAwesomeIcons.city),
+    return Scaffold(
+      appBar: Utils.appBar("Apartment List"),
+      body: Container(
+        padding: EdgeInsets.all(15),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _tec,
+                    decoration: Utils.inputDecoration(
+                      "Enter Apartment",
+                      icon: FaIcon(FontAwesomeIcons.city),
+                    ),
                   ),
-                ),
-                SizedBox(height: 15),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: CustomButton(
-                      onTap: () {
-                        if (_tec.text.isNotEmpty) {
-                          FirestoreServices()
-                              .addNewApartment(
-                                  ApartmentModel(value: _tec.text.trim()))
-                              .then((value) {
-                            Utils.showMessage(
-                                "${_tec.text} has been added to the list.");
-                            setState(() {
-                              _tec.text = '';
-                            });
-                          });
-                        } else {
-                          Utils.showMessage("Please type something.");
-                          return;
-                        }
-                      },
-                      text: 'Add Apartment'),
-                )
-              ],
-            ),
-          ),
-          SizedBox(width: 20),
-          Expanded(
-            child: StreamProvider<List<ApartmentModel>>.value(
-              value: FirestoreServices().getApartments,
-              builder: (context, child) {
-                List<ApartmentModel> dataList =
-                    Provider.of<List<ApartmentModel>>(context);
-
-                if (dataList == null) return Utils.loading();
-                if (dataList.length == 0) return Utils.noDataWidget(context);
-                return ListView.builder(
-                  itemCount: dataList.length,
-                  itemBuilder: (context, index) => CustomCard(
-                    title: dataList[index].value,
-                    trailing: IconButton(
-                      icon: FaIcon(
-                        FontAwesomeIcons.times,
-                        color: Colors.red,
-                      ),
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (context) => ConfirmDialog(
-                          title:
-                              "Are you sure to delete ${dataList[index].value} from the list?",
-                          confirmBtnCallback: () => FirestoreServices()
-                              .deleteApartment(
-                            dataList[index],
-                          )
-                              .then(
-                            (value) {
+                  SizedBox(height: 15),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: CustomButton(
+                        onTap: () {
+                          if (_tec.text.isNotEmpty) {
+                            FirestoreServices()
+                                .addNewApartment(
+                                    ApartmentModel(value: _tec.text.trim()))
+                                .then((value) {
                               Utils.showMessage(
-                                  "${dataList[index].value} has been removed successfully.");
-                              Navigator.pop(context);
-                            },
+                                  "${_tec.text} has been added to the list.");
+                              setState(() {
+                                _tec.text = '';
+                              });
+                            });
+                          } else {
+                            Utils.showMessage("Please type something.");
+                            return;
+                          }
+                        },
+                        text: 'Add Apartment'),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(width: 20),
+            Expanded(
+              child: StreamProvider<List<ApartmentModel>>.value(
+                value: FirestoreServices().getApartments,
+                builder: (context, child) {
+                  List<ApartmentModel> dataList =
+                      Provider.of<List<ApartmentModel>>(context);
+
+                  if (dataList == null) return Utils.loading();
+                  if (dataList.length == 0) return Utils.noDataWidget(context);
+                  return ListView.builder(
+                    itemCount: dataList.length,
+                    itemBuilder: (context, index) => CustomCard(
+                      title: dataList[index].value,
+                      trailing: IconButton(
+                        icon: FaIcon(
+                          FontAwesomeIcons.times,
+                          color: Colors.red,
+                        ),
+                        onPressed: () => showDialog(
+                          context: context,
+                          builder: (context) => ConfirmDialog(
+                            title:
+                                "Are you sure to delete ${dataList[index].value} from the list?",
+                            confirmBtnCallback: () => FirestoreServices()
+                                .deleteApartment(
+                              dataList[index],
+                            )
+                                .then(
+                              (value) {
+                                Utils.showMessage(
+                                    "${dataList[index].value} has been removed successfully.");
+                                Navigator.pop(context);
+                              },
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-          )
-        ],
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

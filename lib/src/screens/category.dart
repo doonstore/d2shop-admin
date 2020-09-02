@@ -72,6 +72,8 @@ class _CategoryManageState extends State<CategoryManage> {
           tecSub.text = '';
           imageUrl = null;
         });
+        Provider.of<ApplicationState>(context, listen: false)
+            .changeAdding(false);
         Provider.of<ApplicationState>(context, listen: false).deleteCategory();
       } else {
         Utils.showMessage('Please select an image file.');
@@ -81,72 +83,92 @@ class _CategoryManageState extends State<CategoryManage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ApplicationState>(
-      builder: (context, value, child) => Container(
+    return Scaffold(
+      appBar: Utils.appBar("Category"),
+      floatingActionButton: Utils.fab(
+        'Add New Category',
+        () {
+          Provider.of<ApplicationState>(context, listen: false)
+              .changeAdding(true);
+        },
+      ),
+      body: Container(
+        padding: EdgeInsets.all(15),
         child: Row(
           children: [
-            Expanded(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      controller: tecName,
-                      decoration: Utils.inputDecoration("Name of the category",
-                          helper: 'Milk | Grocery'),
-                      validator: (value) =>
-                          value.isEmpty ? 'This field is required.' : null,
-                      onSaved: (newValue) => name = newValue.trim(),
-                    ),
-                    SizedBox(height: 10),
-                    TextFormField(
-                      controller: tecSub,
-                      decoration: Utils.inputDecoration("Sub - Category (List)",
-                          helper: "Comma Seprated (If more than one)"),
-                      validator: (value) =>
-                          value.isEmpty ? 'This field is required.' : null,
-                      onSaved: (newValue) => subCategory = newValue.trim(),
-                    ),
-                    SizedBox(height: 10),
-                    if (value.category == null)
-                      Material(
-                        color: Colors.blue,
-                        elevation: 5.0,
-                        borderRadius: BorderRadius.circular(12),
-                        child: ListTile(
-                          leading: FaIcon(FontAwesomeIcons.upload,
-                              color: Colors.white),
-                          title: Text(
-                            imageUrl != null
-                                ? 'Change Image'
-                                : 'Choose Image (PNG)',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onTap: uploadImage,
-                          trailing: imageUrl != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(imageUrl),
-                                )
-                              : null,
+            Consumer<ApplicationState>(
+              builder: (context, value, child) => value.isAdding
+                  ? Expanded(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextFormField(
+                              controller: tecName,
+                              decoration: Utils.inputDecoration(
+                                  "Name of the category",
+                                  helper: 'Milk | Grocery'),
+                              validator: (value) => value.isEmpty
+                                  ? 'This field is required.'
+                                  : null,
+                              onSaved: (newValue) => name = newValue.trim(),
+                            ),
+                            SizedBox(height: 10),
+                            TextFormField(
+                              controller: tecSub,
+                              decoration: Utils.inputDecoration(
+                                  "Sub - Category (List)",
+                                  helper: "Comma Seprated (If more than one)"),
+                              validator: (value) => value.isEmpty
+                                  ? 'This field is required.'
+                                  : null,
+                              onSaved: (newValue) =>
+                                  subCategory = newValue.trim(),
+                            ),
+                            SizedBox(height: 10),
+                            if (value.category == null)
+                              Material(
+                                color: Colors.blue,
+                                elevation: 5.0,
+                                borderRadius: BorderRadius.circular(12),
+                                child: ListTile(
+                                  leading: FaIcon(FontAwesomeIcons.upload,
+                                      color: Colors.white),
+                                  title: Text(
+                                    imageUrl != null
+                                        ? 'Change Image'
+                                        : 'Choose Image (PNG)',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  onTap: uploadImage,
+                                  trailing: imageUrl != null
+                                      ? ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(imageUrl),
+                                        )
+                                      : null,
+                                ),
+                              ),
+                            SizedBox(height: 20),
+                            !loading
+                                ? Align(
+                                    alignment: Alignment.centerRight,
+                                    child: CustomButton(
+                                        onTap: () =>
+                                            submit(value.category != null),
+                                        text: value.category != null
+                                            ? "Modify Category"
+                                            : 'Add New Category'),
+                                  )
+                                : Utils.loadingBtn(),
+                            SizedBox(height: 50),
+                          ],
                         ),
                       ),
-                    SizedBox(height: 20),
-                    !loading
-                        ? Align(
-                            alignment: Alignment.centerRight,
-                            child: CustomButton(
-                                onTap: () => submit(value.category != null),
-                                text: value.category != null
-                                    ? "Modify Category"
-                                    : 'Add New Category'),
-                          )
-                        : Utils.loadingBtn(),
-                    SizedBox(height: 50),
-                  ],
-                ),
-              ),
+                    )
+                  : SizedBox(),
             ),
             SizedBox(width: 20),
             Expanded(
